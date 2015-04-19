@@ -1,0 +1,6 @@
+# Add the rmarkdown compiler to your COMPILERS dict.
+COMPILERS["textile"] = ('.txt',)
+
+# Add rmarkdown files to your POSTS, PAGES
+POSTS = POSTS + (("posts/*.Rmd", "posts", "post.tmpl"),)
+PAGES = PAGES + (("stories/*.Rmd", "stories", "stories.tmpl"),)
