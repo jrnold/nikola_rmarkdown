@@ -60,7 +60,7 @@ class CompileRMarkdown(PageCompiler):
                            runtime = "static",
                            output_format = "html_fragment",
                            clean = True,
-                           quiet = False)
+                           quiet = True)
 
     def create_post(self, path, **kw):
         content = kw.pop('content', None)
