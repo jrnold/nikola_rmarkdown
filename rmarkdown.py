@@ -34,7 +34,7 @@ import codecs
 import os
 import subprocess
 
-from rpy2.robjects.packages import importr
+# from rpy2.robjects.packages import importr
 
 from nikola.plugin_categories import PageCompiler
 from nikola.utils import makedirs, req_missing, write_metadata
@@ -44,6 +44,13 @@ try:
 except ImportError:
     OrderedDict = dict  # NOQA
 
+def render_rmarkdown(src, dest, quiet = True):
+    Rbin = "Rscript"
+    expr = "rmarkdown::render('{src}', output_file = '{output_file}', quiet = {quiet})".\
+	format(src = src,
+	       output_file = os.path.join(os.getcwd(), dest), 
+	       quiet = "TRUE" if quiet else "FALSE")
+    subprocess.check_call([Rbin, '-e', expr])
 
 class CompileRMarkdown(PageCompiler):
     """Compile R Markdown into HTML."""
@@ -51,16 +58,27 @@ class CompileRMarkdown(PageCompiler):
     name = "rmarkdown"
     demote_headers = True
 
+    # def set_site(self, site):
+    #     self.config_dependencies = [str(site.config['RMARKDOWN_QUIET'])]
+    #     super(CompileRMarkdown, self).set_site(site)
+
     def compile_html(self, source, dest, is_two_file=True):
         makedirs(os.path.dirname(dest))
-        r_rmarkdown = importr("rmarkdown")
-        r_base = importr("base")
-        r_rmarkdown.render(source,
-                           output_file = os.path.join(os.getcwd(), dest),
-                           runtime = "static",
-                           output_format = "html_fragment",
-                           clean = True,
-                           quiet = False)
+        # r_rmarkdown = importr("rmarkdown")
+        # r_base = importr("base")
+        # r_rmarkdown.render(source,
+        #                    output_file = os.path.join(os.getcwd(), dest),
+        #                    runtime = "static",
+        #                    output_format = "html_fragment",
+        #                    clean = True,
+        #                    quiet = True)
+        try:
+            render_rmarkdown(source, dest, quiet = False)
+        except OSError as e:
+            if e.strreror == 'No such file or directory':
+                req_missing(['Rscript'], 'build this site (compile with Rscript)', python=False)
+
+                   
 
     def create_post(self, path, **kw):
         content = kw.pop('content', None)
