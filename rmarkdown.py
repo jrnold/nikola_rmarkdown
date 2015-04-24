@@ -47,7 +47,7 @@ except ImportError:
 
 def render_rmarkdown(src, dest, quiet = True):
     Rbin = "Rscript"
-    expr = "rmarkdown::render('{src}', output_file = '{output_file}', quiet = {quiet})".\
+    expr = "rmarkdown::render('{src}', output_file = '{output_file}', quiet = {quiet}, clean = TRUE)".\
 	format(src = src,
 	       output_file = os.path.join(os.getcwd(), dest), 
 	       quiet = "TRUE" if quiet else "FALSE")
