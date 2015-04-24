@@ -32,6 +32,7 @@ You will need, of course, to install R and the R package rmarkdown.
 
 import codecs
 import os
+import io
 import subprocess
 
 # from rpy2.robjects.packages import importr
