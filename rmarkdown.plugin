@@ -6,3 +6,4 @@ Module = rmarkdown
 Author = Jeffrey Arnold
 Version = 0.0.1
 Description = Compile R markdown files into HTML using R the rmarkdown package
+Website = https://github.com/jrnold/nikola_rmarkdown
